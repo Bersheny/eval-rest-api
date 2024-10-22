@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Param } from '@nestjs/common';
+import { Controller, Post, Body, Param, Get } from '@nestjs/common';
 import { BorrowsService } from './borrows.service';
 import { BooksService } from '../books/books.service';
 import { UsersService } from '../users/users.service';
@@ -13,6 +13,11 @@ export class BorrowsController {
     private readonly usersService: UsersService,
   ) {}
 
+  @Get()
+  getAllBorrows() {
+    return this.borrowsService.findAll(); // Call the service method to get all borrows
+  }
+
   @Post()
   borrowBook(@Body() borrow: Borrow) {
     return this.borrowsService.borrowBook(borrow);
@@ -20,15 +25,15 @@ export class BorrowsController {
 
   @Post('dto')
   async borrowBookWithDto(@Body() createBorrowDto: CreateBorrowDto) {
-    const book = await this.booksService.findOne(createBorrowDto.bookId); // On récupère le livre
-    const user = await this.usersService.findOne(createBorrowDto.userId); // On récupère l'utilisateur
+    const book = await this.booksService.findOne(createBorrowDto.bookId); // Retrieve the book
+    const user = await this.usersService.findOne(createBorrowDto.userId); // Retrieve the user
 
     if (!book || !user) {
       return { message: 'Book or User not found' };
     }
 
     const borrow: Borrow = {
-      id: Date.now(), // Génère un ID fictif (à ajuster selon ta logique)
+      id: Date.now(), // Generate a temporary ID
       book: book,
       user: user,
       borrowDate: createBorrowDto.borrowDate,

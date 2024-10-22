@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { Borrow } from './entities/borrow.entity';
-import { Book } from '../books/entities/book.entity';
 
 @Injectable()
 export class BorrowsService {
@@ -9,6 +8,10 @@ export class BorrowsService {
   borrowBook(borrow: Borrow) {
     this.borrows.push(borrow);
     return borrow;
+  }
+
+  findAll() {
+    return this.borrows; // Return all borrows
   }
 
   findBorrowedBooksByUser(userId: number) {

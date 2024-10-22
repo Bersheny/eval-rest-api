@@ -1,0 +1,8 @@
+Livres:
+- GET localhost:3000/books
+
+Utilisateurs:
+- GET localhost:3000/users
+
+Emprunts:
+- GET localhost:3000/borrows
